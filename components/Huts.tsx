@@ -62,12 +62,12 @@ export default function HutsGallery() {
         { label: "Location", value: "Turtle Beach" },
       ],
       images: [
-        { src: "/A-86 front.jpeg", title: "FRONT" },
-        { src: "/A-86 inside.jpeg", title: "INSIDE" },
-        { src: "/A-86 lounge.jpeg", title: "LOUNGE" },
-        { src: "/A-86 toilet.jpeg", title: "TOILET" },
-        { src: "/A-86-kitchen.jpeg", title: "KITCHEN" },
-        { src: "/A-86 view.jpeg", title: "VIEW" },
+        { src: "/a-86 front.jpeg", title: "FRONT" },
+        { src: "/a-86 inside.jpeg", title: "INSIDE" },
+        { src: "/a-86 lounge.jpeg", title: "LOUNGE" },
+        { src: "/a-86 toilet.jpeg", title: "TOILET" },
+        { src: "/a-86-kitchen.jpeg", title: "KITCHEN" },
+        { src: "/a-86 view.jpeg", title: "VIEW" },
       ],
     },
     {
