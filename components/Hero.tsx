@@ -8,7 +8,7 @@ export default function Hero() {
     >
       {/* Background Image */}
       <Image
-        src="/bg.jpeg"
+        src="/Homebg.jpg"
         alt="Beach background"
         fill
         className="object-cover"
