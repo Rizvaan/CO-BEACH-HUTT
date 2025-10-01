@@ -1,26 +1,83 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Import Google Fonts Variables */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-poppins: 'Poppins', sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+  --font-merri: 'Merriweather', serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Global font family */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), var(--font-roboto), var(--font-merri);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Navbar links */
+.nav-link {
+  color: theme('colors.gray.700');
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.dark .nav-link {
+  color: theme('colors.gray.300');
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 0;
+  background-color: theme('colors.blue.500');
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: theme('colors.blue.500');
+}
+
+/* Table / Card hover animation (Huts) */
+.hut-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hut-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.hut-card .feature-value:hover {
+  color: theme('colors.blue.500');
+  transition: color 0.3s ease;
+}
+
+/* Button hover */
+button {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Gallery image hover */
+.group:hover img {
+  transform: scale(1.1);
+  transition: transform 0.5s ease;
+}
+
+/* Modal image transition */
+.fixed img {
+  transition: all 0.3s ease;
 }
