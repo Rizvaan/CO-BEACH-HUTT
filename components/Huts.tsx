@@ -20,6 +20,7 @@ export default function HutsGallery() {
     people: "",
   });
 
+  // You can define your WhatsApp number in .env.local as NEXT_PUBLIC_WHATSAPP_NUMBER
   const ownerNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 
   const galleries: { name: string; features: Feature[]; images: Img[] }[] = [
@@ -99,7 +100,7 @@ export default function HutsGallery() {
     setShowForm(true);
   };
 
-  // ✅ Updated: Formatted WhatsApp Message
+  // ✅ WhatsApp message with proper multiline formatting
   const handleSubmit = () => {
     if (!selectedHut) return;
 
@@ -119,7 +120,7 @@ export default function HutsGallery() {
           default: return `• ${f.label}: ${f.value}`;
         }
       })
-      .join("\n");
+      .join("\n"); // 👈 Each feature on a new line
 
     const message =
       `📌 *Booking Request*\n\n` +
@@ -215,7 +216,7 @@ export default function HutsGallery() {
         </div>
       ))}
 
-      {/* Image Preview Modal */}
+      {/* Image Modal */}
       {selectedImage && (
         <div
           className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
