@@ -20,8 +20,8 @@ export default function HutsGallery() {
     people: "",
   });
 
-  // you can hardcode number if you prefer: const ownerNumber = "923001234567";
-  const ownerNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+  // You can hardcode or use .env file value like NEXT_PUBLIC_WHATSAPP_NUMBER
+  const ownerNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "923001234567"; // example for Pakistan
 
   const galleries: { name: string; features: Feature[]; images: Img[] }[] = [
     {
@@ -100,19 +100,36 @@ export default function HutsGallery() {
     setShowForm(true);
   };
 
+  // ✅ Updated WhatsApp message (table-style)
   const handleSubmit = () => {
     if (!selectedHut) return;
-    const specs = selectedHut.features.map((f) => `${f.label}: ${f.value}`).join(", ");
-  const message = `📌 *Booking Request*\n\n` +
-                  `🏠 *Hut:* ${selectedHut.name}\n` +
-                  `👤 *Name:* ${formData.name}\n` +
-                  `📅 *Date:* ${formData.date}\n` +
-                  `👥 *People:* ${formData.people}\n\n` +
-                  `--- *Specifications* ---\n${specs}`;
 
-  const whatsappLink = `https://api.whatsapp.com/send?phone=${ownerNumber}&text=${encodeURIComponent(
-    message
-  )}`;
+    // Build specifications in nice bullet format
+    const specsText = selectedHut.features
+      .map((f) => `║    ▪️ ${f.label}: ${f.value}`)
+      .join("\n");
+
+    // Fancy formatted WhatsApp message
+    const message = `
+🟢 *New Booking Request*
+
+╔════════════════════════════════╗
+║ 🏖️ *Hut:* ${selectedHut.name}
+║ 
+║ ⚙️ *Specifications:*
+${specsText}
+║ 
+║ 👤 *Client:* ${formData.name}
+║ 👥 *People:* ${formData.people}
+║ 📅 *Booking Date:* ${formData.date}
+╚════════════════════════════════╝
+`;
+
+    // WhatsApp Link
+    const whatsappLink = `https://api.whatsapp.com/send?phone=${ownerNumber}&text=${encodeURIComponent(
+      message
+    )}`;
+
     window.open(whatsappLink, "_blank");
     setShowForm(false);
     setFormData({ name: "", date: "", people: "" });
@@ -145,7 +162,9 @@ export default function HutsGallery() {
               <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-sm">
                 {gallery.features.map((f, index) => (
                   <Fragment key={index}>
-                    <div className="text-gray-600 dark:text-gray-400">{f.label}</div>
+                    <div className="text-gray-600 dark:text-gray-400">
+                      {f.label}
+                    </div>
                     <div className="text-gray-900 dark:text-gray-200 font-medium">
                       {f.value}
                     </div>
@@ -223,20 +242,26 @@ export default function HutsGallery() {
               placeholder="Your Name"
               className="w-full mb-3 p-2 border rounded-lg dark:bg-gray-800"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
             />
             <input
               type="date"
               className="w-full mb-3 p-2 border rounded-lg dark:bg-gray-800"
               value={formData.date}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, date: e.target.value })
+              }
             />
             <input
               type="number"
               placeholder="Number of People"
               className="w-full mb-3 p-2 border rounded-lg dark:bg-gray-800"
               value={formData.people}
-              onChange={(e) => setFormData({ ...formData, people: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, people: e.target.value })
+              }
             />
             <div className="flex justify-end gap-3">
               <button
