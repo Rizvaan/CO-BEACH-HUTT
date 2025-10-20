@@ -20,8 +20,7 @@ export default function HutsGallery() {
     people: "",
   });
 
-  // You can hardcode or use .env file value like NEXT_PUBLIC_WHATSAPP_NUMBER
-  const ownerNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "923001234567"; // example for Pakistan
+  const ownerNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 
   const galleries: { name: string; features: Feature[]; images: Img[] }[] = [
     {
@@ -35,7 +34,7 @@ export default function HutsGallery() {
         { label: "BBQ Area", value: "Yes" },
         { label: "Parking", value: "Available" },
         { label: "Water", value: "Sweet Water" },
-        { label: "Generator", value: "Available Fuel not included" },
+        { label: "Generator", value: "Available (Fuel not included)" },
         { label: "Location", value: "Turtle Beach" },
       ],
       images: [
@@ -58,7 +57,7 @@ export default function HutsGallery() {
         { label: "BBQ Area", value: "Yes" },
         { label: "Parking", value: "Available" },
         { label: "Water", value: "Fresh Spring" },
-        { label: "Generator", value: "Available Fuel not included" },
+        { label: "Generator", value: "Available (Fuel not included)" },
         { label: "Location", value: "Turtle Beach" },
       ],
       images: [
@@ -76,12 +75,12 @@ export default function HutsGallery() {
         { label: "Bedrooms", value: "2" },
         { label: "Washrooms", value: "3" },
         { label: "Lounge", value: "Cozy Lounge" },
-        { label: "Balcony", value: "Large covered Balcony" },
+        { label: "Balcony", value: "Large Covered Balcony" },
         { label: "Kitchen", value: "Kitchen With Gas" },
         { label: "BBQ Area", value: "Available" },
         { label: "Parking", value: "Available" },
         { label: "Water", value: "Natural Stream" },
-        { label: "Generator", value: "Available Fuel not included" },
+        { label: "Generator", value: "Available (Fuel not included)" },
         { label: "Location", value: "Turtle Beach" },
       ],
       images: [
@@ -100,32 +99,37 @@ export default function HutsGallery() {
     setShowForm(true);
   };
 
-  // ✅ Updated WhatsApp message (table-style)
+  // ✅ Updated: Formatted WhatsApp Message
   const handleSubmit = () => {
     if (!selectedHut) return;
 
-    // Build specifications in nice bullet format
-    const specsText = selectedHut.features
-      .map((f) => `║    ▪️ ${f.label}: ${f.value}`)
+    const specs = selectedHut.features
+      .map((f) => {
+        switch (f.label.toLowerCase()) {
+          case "bedrooms": return `🛏 ${f.label}: ${f.value}`;
+          case "washrooms": return `🚿 ${f.label}: ${f.value}`;
+          case "lounge": return `🛋 ${f.label}: ${f.value}`;
+          case "balcony": return `🌅 ${f.label}: ${f.value}`;
+          case "kitchen": return `🍳 ${f.label}: ${f.value}`;
+          case "bbq area": return `🔥 ${f.label}: ${f.value}`;
+          case "parking": return `🚗 ${f.label}: ${f.value}`;
+          case "water": return `💧 ${f.label}: ${f.value}`;
+          case "generator": return `⚡ ${f.label}: ${f.value}`;
+          case "location": return `📍 ${f.label}: ${f.value}`;
+          default: return `• ${f.label}: ${f.value}`;
+        }
+      })
       .join("\n");
 
-    // Fancy formatted WhatsApp message
-    const message = `
-🟢 *New Booking Request*
+    const message =
+      `📌 *Booking Request*\n\n` +
+      `🏠 *Hut:* ${selectedHut.name}\n` +
+      `👤 *Name:* ${formData.name}\n` +
+      `📅 *Date:* ${formData.date}\n` +
+      `👥 *People:* ${formData.people}\n\n` +
+      `--- *Specifications* ---\n${specs}\n\n` +
+      `🌊 *Thank you for choosing CO Beach Hutt!*\nWe’ll contact you soon to confirm your booking.`;
 
-╔════════════════════════════════╗
-║ 🏖️ *Hut:* ${selectedHut.name}
-║ 
-║ ⚙️ *Specifications:*
-${specsText}
-║ 
-║ 👤 *Client:* ${formData.name}
-║ 👥 *People:* ${formData.people}
-║ 📅 *Booking Date:* ${formData.date}
-╚════════════════════════════════╝
-`;
-
-    // WhatsApp Link
     const whatsappLink = `https://api.whatsapp.com/send?phone=${ownerNumber}&text=${encodeURIComponent(
       message
     )}`;
@@ -153,7 +157,7 @@ ${specsText}
             i % 2 === 1 ? "md:flex-row-reverse" : ""
           }`}
         >
-          {/* Hut Card */}
+          {/* Hut Info Card */}
           <div className="md:w-1/3 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow hover:shadow-lg transition flex flex-col">
             <div className="flex-grow">
               <h2 className="text-xl font-semibold mb-4 text-blue-500">
@@ -183,7 +187,7 @@ ${specsText}
             </div>
           </div>
 
-          {/* Gallery */}
+          {/* Hut Gallery */}
           <div className="md:w-2/3 flex">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 auto-rows-[220px] flex-grow">
               {gallery.images.map((img, index) => (
@@ -211,7 +215,7 @@ ${specsText}
         </div>
       ))}
 
-      {/* Image Modal */}
+      {/* Image Preview Modal */}
       {selectedImage && (
         <div
           className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
